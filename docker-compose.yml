@@ -1,0 +1,44 @@
+version: '3.4'
+services:
+  norik_postgres:
+    container_name: 'norik_postgres'
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpass
+      POSTGRES_DB: norik_db
+    volumes:
+      - 'norik_db_data:/var/lib/postgresql/data'
+  norik_elasticsearch:
+    image: elasticsearch:7.7.0
+    container_name: norik_elasticsearch
+    hostname: elasticsearch
+    environment:
+      - 'discovery.type=single-node'
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elknetwork
+  norik_kibana:
+    image: kibana:7.7.0
+    container_name: norik_kibana
+    hostname: kibana
+    ports:
+      - 5601:5601
+    links:
+      - norik_elasticsearch:elasticsearch
+    depends_on:
+      - norik_elasticsearch
+    networks:
+      - elknetwork
+
+volumes:
+  norik_db_data:
+    name: norikDbData
+
+networks:
+  elknetwork:
+    driver: bridge

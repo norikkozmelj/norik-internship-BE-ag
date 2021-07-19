@@ -1,0 +1,59 @@
+config:
+  target: "https://api-dev.bitz.si"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+    #  - duration: 20
+    #    arrivalRate: 1
+    #    rampTo: 50
+    # - duration: 60
+    #   arrivalCount: 1600
+scenarios:
+  - name: "Get all sports"
+    flow:
+      - post:
+          url: "/auth/signin"
+          json:
+            email: "info@norik.com"
+            password: "ArthurApp2021!"
+          capture:
+            json: "$.access_token"
+            as: token
+      - think: 2
+      - get:
+          url: /sport
+          headers:
+            Authorization: Bearer {{ token }}
+            Content-Type: application/json
+  - name: "Get all existing devices"
+    flow:
+      - post:
+          url: "/auth/signin"
+          json:
+            email: "info@norik.com"
+            password: "ArthurApp2021!"
+          capture:
+            json: "$.access_token"
+            as: token
+      - think: 2
+      - get:
+          url: /device
+          headers:
+            Authorization: Bearer {{ token }}
+            Content-Type: application/json
+  - name: "Get profile"
+    flow:
+      - post:
+          url: "/auth/signin"
+          json:
+            email: "info@norik.com"
+            password: "ArthurApp2021!"
+          capture:
+            json: "$.access_token"
+            as: token
+      - think: 2
+      - get:
+          url: /user
+          headers:
+            Authorization: Bearer {{ token }}
+            Content-Type: application/json
