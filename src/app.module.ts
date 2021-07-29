@@ -5,6 +5,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { UserModule } from './module/user/user.module';
 import { EncryptionModule } from './module/encryption/encryption.module';
 import { LoggingModule } from './module/logging/logging.module';
+import { PostsModule } from './module/posts/posts.module';
 import { AllExceptionsFilter } from './filter/all-exceptions.filter';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigService } from './module/config/config.service';
@@ -47,6 +48,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     UserModule,
     EncryptionModule,
     LoggingModule,
+    PostsModule
   ],
   providers: [
     {
