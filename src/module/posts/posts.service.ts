@@ -8,7 +8,11 @@ import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostModel } from './posts.entity';
+<<<<<<< HEAD
 import { Comment } from '../comments/comments.entity';
+=======
+
+>>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
 
 @Injectable()
 export class PostsService {
@@ -104,9 +108,19 @@ export class PostsService {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
     const user_id = user.id;
+<<<<<<< HEAD
     const post = await this.getOneById(id, user_id);
     await getRepository(Comment).remove(post.comments);
     await getRepository(PostModel).remove(post);
+=======
+    await this.getOneById(id, user_id);
+    getRepository(PostModel)
+      .createQueryBuilder()
+      .delete()
+      .where('id = :id', { id })
+      .andWhere('user_id = :user_id', {user_id})
+      .execute();
+>>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
   }
 
   @Transactional()

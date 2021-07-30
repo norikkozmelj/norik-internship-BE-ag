@@ -13,6 +13,10 @@ export const enum ExceptionCodeName {
   FOOD_LIFESTYLE_NOT_FOUND = 'FOOD_LIFESTYLE_NOT_FOUND',
   INVALID_POST_ID = 'INVALID_POST_ID',
   POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST = 'POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST',
+<<<<<<< HEAD
   POST_DOES_NOT_EXIST = 'POST_DOES_NOT_EXIST',
   COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT',
+=======
+  COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT'
+>>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
 }
