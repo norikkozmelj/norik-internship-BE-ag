@@ -12,17 +12,13 @@ import {
     ApiBadRequestResponse,
     ApiBearerAuth,
     ApiCreatedResponse,
-    ApiNotFoundResponse,
     ApiOkResponse,
     ApiTags,
     ApiUnauthorizedResponse,
   } from '@nestjs/swagger';
   import { GetUser } from 'src/decorator/user.decorator';
   import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
-  import { Roles } from 'src/decorator/roles.decorator';
   import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-  import { RoleGuard } from '../auth/guard/role.guard';
-  import { UserRoleKey } from '../user/enum/user-role-key.enum';
   import { PostModel } from './posts.entity';
   import { PostsService } from './posts.service';
   import { CreatePostDto } from './dto/create-post.dto';
