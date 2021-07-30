@@ -3,18 +3,15 @@ import { IsDate, IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-valida
 
 export class UpdatePostDto {
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   title: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   content: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsDate()
-  care: Date;
+  date: Date;
 
 }

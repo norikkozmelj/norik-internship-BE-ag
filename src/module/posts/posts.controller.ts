@@ -62,7 +62,6 @@ import {
     })
     @UseGuards(JwtAuthGuard)
     @Post()
-    
     async create(
       @Body() createPostDto: CreatePostDto,
       @GetUser() requestUserPayload: RequestUserPayload,
@@ -71,39 +70,41 @@ import {
     }
     
 
-    /*
+    
     @ApiCreatedResponse({
-      description: 'Plant was updated',
-      type: Plant,
+      description: 'Post was updated',
+      type: Post,
     })
     @ApiUnauthorizedResponse({
-      description: 'User is not admin',
+      description: 'User is not logged in',
     })
     @ApiBadRequestResponse({
       description: 'Invalid body',
     })
-    @Roles(UserRoleKey.ADMIN)
-    @UseGuards(JwtAuthGuard, RoleGuard)
-    @Put('id')
+    @UseGuards(JwtAuthGuard)
+    @Put(':id')
     async update(
       @Param('id') id: number,
-      @Body() updatePlantDto: UpdatePlantDto,
-    ): Promise<Plant> {
-      return this.plantService.update(id, updatePlantDto);
+      @Body() updatePostDto: UpdatePostDto,
+      @GetUser() requestUserPayload: RequestUserPayload,
+    ): Promise<PostModel> {
+      return this.postsService.update(id, requestUserPayload, updatePostDto);
     }
-  
+    
+    
     @ApiOkResponse({
-      description: 'Plant was deleted',
+      description: 'Post was deleted',
     })
     @ApiUnauthorizedResponse({
-      description: 'User is not admin',
+      description: 'User is not logged in',
     })
-    @Roles(UserRoleKey.ADMIN)
-    @UseGuards(JwtAuthGuard, RoleGuard)
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    async delete(@Param('id') id: number): Promise<void> {
-      return this.plantService.delete(id);
+    async delete(@Param('id') id: number,
+          @GetUser() requestUserPayload: RequestUserPayload,
+    ): Promise<void> {
+      return this.postsService.delete(id, requestUserPayload);
     }
-    */
+    
   }
   
