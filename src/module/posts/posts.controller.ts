@@ -44,8 +44,6 @@ import {
       return this.postsService.getAll();
     }
     
-  
-    
     @ApiCreatedResponse({
       description: 'Post was created',
       type: PostModel,
