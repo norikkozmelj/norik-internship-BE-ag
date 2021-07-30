@@ -57,10 +57,6 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    if (!post) {
-      throw new NotFoundException(ExceptionCodeName.YOU_CAN_NOT_UPDATE_THIS_POST);
-    }
-    
     const { title, content, date } = updatePostDto;
     const newPost = {...post};
     newPost.title = title || newPost.title;
@@ -91,10 +87,6 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    if (!post) {
-      throw new NotFoundException(ExceptionCodeName.YOU_CAN_NOT_DELETE_THIS_POST);
-    }
-        
     getRepository(PostModel)
       .createQueryBuilder()
       .delete()
