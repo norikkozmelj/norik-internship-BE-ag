@@ -63,9 +63,9 @@ export class PostsService {
     
     const { title, content, date } = updatePostDto;
     const newPost = {...post};
-    newPost.title = (title) ? title : newPost.title;
-    newPost.content = (content) ? content : newPost.content;
-    newPost.date = (date) ? date : newPost.date;
+    newPost.title = title || newPost.title;
+    newPost.content = content || newPost.content;
+    newPost.date = date || newPost.date;
 
     return await getRepository(PostModel).save(newPost);
   }
