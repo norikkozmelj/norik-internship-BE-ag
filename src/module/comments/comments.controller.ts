@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Controller,
   Body,
@@ -7,6 +8,17 @@ import {
   Param,
   Delete,
   UseGuards,
+=======
+import { 
+  Controller,
+  Body, 
+  Post,
+  Get, 
+  Put, 
+  Param, 
+  Delete,
+  UseGuards
+>>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -23,8 +35,13 @@ import { Comment } from './comments.entity';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+<<<<<<< HEAD
 
 @ApiTags('comments')
+=======
+  
+@ApiTags('posts')
+>>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 @ApiBearerAuth()
 @Controller('comments')
 export class CommentsController {
@@ -41,6 +58,7 @@ export class CommentsController {
     description: 'Invalid body',
   })
   @UseGuards(JwtAuthGuard)
+<<<<<<< HEAD
   @Post(':id')
   async create(
     @Param('id') id: number,
@@ -52,6 +70,14 @@ export class CommentsController {
       createCommentDto,
       requestUserPayload,
     );
+=======
+  @Post()
+  async create(
+    @Body() createCommentDto: CreateCommentDto,
+    @GetUser() requestUserPayload: RequestUserPayload,
+  ): Promise<Comment> {
+    return this.commentsService.create(createCommentDto, requestUserPayload);
+>>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   }
 
   @ApiOkResponse({
@@ -63,7 +89,13 @@ export class CommentsController {
   })
   @UseGuards(JwtAuthGuard)
   @Get()
+<<<<<<< HEAD
   async getAll(): Promise<Comment[]> {
+=======
+  async getAll(
+    @Body() createCommentDto: CreateCommentDto,
+  ): Promise<Comment[]> {
+>>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
     return this.commentsService.getAll();
   }
 
@@ -92,6 +124,7 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
+<<<<<<< HEAD
     @Param('id') id: number,
     @GetUser() requestUserPayload: RequestUserPayload,
     @Body() updateCommentDto: UpdateCommentDto,
@@ -102,4 +135,13 @@ export class CommentsController {
       updateCommentDto,
     );
   }
+=======
+    @Param('id') id: number, 
+    @GetUser() requestUserPayload: RequestUserPayload,
+    @Body() updateCommentDto:UpdateCommentDto,
+    ): Promise<Comment> {
+    return this.commentsService.update(id, requestUserPayload, updateCommentDto,);
+  }
+
+>>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 }
