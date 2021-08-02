@@ -29,6 +29,7 @@ import {
     @ApiProperty()
     @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id' })
+    @Transform((user) => user.id)
     @Type(() => User)
     user: User;
 
