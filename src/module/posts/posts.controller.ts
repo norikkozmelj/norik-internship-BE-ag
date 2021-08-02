@@ -51,6 +51,7 @@ import {
   import { PostsService } from './posts.service';
   import { CreatePostDto } from './dto/create-post.dto';
   import { UpdatePostDto } from './dto/update-post.dto';
+  import { Comment } from '../comments/comments.entity';
     
   @ApiTags('posts')
   @ApiBearerAuth()
@@ -58,7 +59,6 @@ import {
   export class PostsController {
     constructor(private readonly postsService: PostsService) {}
   
-    //get all posts, create a new post, update and delete an existing post
     @ApiOkResponse({
       description: 'List of all posts',
       type: [PostModel],
@@ -70,6 +70,21 @@ import {
     @Get()
     async getAll(): Promise<PostModel[]> {
       return this.postsService.getAll();
+    }
+
+    @ApiOkResponse({
+      description: 'List of comments on this post',
+      type: [PostModel],
+    })
+    @ApiUnauthorizedResponse({
+      description: 'User is not logged in',
+    })
+    @UseGuards(JwtAuthGuard)
+    @Get('comments/:id')
+    async getComments(
+      @Param('id') id:number,
+    ): Promise<Comment[]> {
+      return this.postsService.getComments(id);
     }
     
     @ApiCreatedResponse({

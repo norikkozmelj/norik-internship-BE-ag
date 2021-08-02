@@ -9,10 +9,14 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostModel } from './posts.entity';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Comment } from '../comments/comments.entity';
 =======
 
 >>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
+=======
+import { Comment } from '../comments/comments.entity';
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 
 @Injectable()
 export class PostsService {
@@ -57,11 +61,15 @@ export class PostsService {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
     const user_id = user.id;
-    const post = await this.getOneById(id, user_id);
+    const post = {...await this.getOneById(id, user_id)};
     const { title, content, date } = updatePostDto;
     post.title = title || post.title;
     post.content = content || post.content;
+<<<<<<< HEAD
     post.created_at = date || post.created_at;
+=======
+    post.date = date || post.date;
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 
     return await getRepository(PostModel).save(post);
   }
@@ -94,6 +102,21 @@ export class PostsService {
       .getMany();
   }
 
+<<<<<<< HEAD
+=======
+  @Transactional()
+  async getComments(
+    id: number,
+  ): Promise<Comment[]> {
+    return getRepository(Comment)
+    .createQueryBuilder('comment')
+    .leftJoinAndSelect('comment.user', 'user')
+    //.leftJoinAndSelect("comment.post", "post")
+    .where('comment.postId = :id', {id})
+    .getMany();
+  }
+  
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   @Transactional()
   async delete(
     id: number,
@@ -152,4 +175,20 @@ export class PostsService {
     }
     return res;
   }
+<<<<<<< HEAD
+=======
+
+  @Transactional()
+  async getById(id: number): Promise<PostModel> {
+    const res = await getRepository(PostModel)
+      .createQueryBuilder('post_model')
+      .where('id = :id', { id })
+      .getOne();
+    if (!res) {
+      throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST);
+    }
+    return res;
+  }
+  
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 }

@@ -1,18 +1,28 @@
 import {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   Column,
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+<<<<<<< HEAD
   OneToMany,
   ManyToOne,
   JoinColumn,
+=======
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 } from 'typeorm';
 import { Exclude, Type, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Comment } from '../comments/comments.entity';
+<<<<<<< HEAD
 =======
     Column,
     Entity,
@@ -26,6 +36,8 @@ import { Comment } from '../comments/comments.entity';
   import { Exclude, Type, Transform } from 'class-transformer';
   import { ApiProperty } from '@nestjs/swagger';
   import { User } from '../user/user.entity';
+=======
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   
   @Entity()
   export class Post {
@@ -48,11 +60,19 @@ import { Comment } from '../comments/comments.entity';
     user: User;
 >>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
 
+<<<<<<< HEAD
 @Entity()
 export class Post {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
+=======
+    @ApiProperty({type: () => Comment})
+    @OneToMany(() => Comment, comment => comment.post)
+    //@JoinColumn({ name: 'comment_id' })
+    @Type(() => Comment)
+    comments: Comment[];
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 
   @ApiProperty()
   @Column()

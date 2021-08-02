@@ -59,6 +59,7 @@ export class CommentsController {
   })
   @UseGuards(JwtAuthGuard)
 <<<<<<< HEAD
+<<<<<<< HEAD
   @Post(':id')
   async create(
     @Param('id') id: number,
@@ -72,13 +73,22 @@ export class CommentsController {
     );
 =======
   @Post()
+=======
+  @Post(':id')
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   async create(
+    @Param('id') id: number,
     @Body() createCommentDto: CreateCommentDto,
     @GetUser() requestUserPayload: RequestUserPayload,
   ): Promise<Comment> {
+<<<<<<< HEAD
     return this.commentsService.create(createCommentDto, requestUserPayload);
 >>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
+=======
+    return this.commentsService.create(id ,createCommentDto, requestUserPayload);
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   }
+  
 
   @ApiOkResponse({
     description: 'List of all comments.',

@@ -14,9 +14,14 @@ export const enum ExceptionCodeName {
   INVALID_POST_ID = 'INVALID_POST_ID',
   POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST = 'POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST',
 <<<<<<< HEAD
+<<<<<<< HEAD
   POST_DOES_NOT_EXIST = 'POST_DOES_NOT_EXIST',
   COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT',
 =======
   COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT'
 >>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
+=======
+  COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT',
+  POST_DOES_NOT_EXIST = 'POST_DOES_NOT_EXIST',
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 }
