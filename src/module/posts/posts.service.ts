@@ -76,6 +76,7 @@ export class PostsService {
 
   @Transactional()
   async getAll(): Promise<PostModel[]> {
+<<<<<<< HEAD
     return getRepository(PostModel)
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.user', 'user')
@@ -100,10 +101,28 @@ export class PostsService {
       .leftJoinAndSelect('comment.user', 'user')
       .where('comment.post_id = :id', { id })
       .getMany();
+=======
+    return getRepository(PostModel).createQueryBuilder('post_model')
+    .leftJoinAndSelect("post_model.user", "user")
+    .leftJoinAndSelect("post_model.comments", "comments")
+    .getMany();
+>>>>>>> Implemented get request for only one post with id, all get requests on post also return author and comments on the posts
   }
 
 <<<<<<< HEAD
 =======
+  @Transactional()
+  async getOne(
+    id: number
+  ): Promise<PostModel | undefined> {
+    return getRepository(PostModel)
+    .createQueryBuilder('post_model')
+    .leftJoinAndSelect('post_model.user', 'user')
+    .leftJoinAndSelect('post_model.comments', 'comments')
+    .where('post_model.id = :id', {id})
+    .getOne();
+  }
+
   @Transactional()
   async getComments(
     id: number,
@@ -111,7 +130,6 @@ export class PostsService {
     return getRepository(Comment)
     .createQueryBuilder('comment')
     .leftJoinAndSelect('comment.user', 'user')
-    //.leftJoinAndSelect("comment.post", "post")
     .where('comment.postId = :id', {id})
     .getMany();
   }

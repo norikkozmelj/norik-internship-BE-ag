@@ -73,6 +73,21 @@ import {
     }
 
     @ApiOkResponse({
+      description: 'Posts is loaded',
+      type: [PostModel],
+    })
+    @ApiUnauthorizedResponse({
+      description: 'User is not logged in',
+    })
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async getOne(
+      @Param('id') id: number,
+    ): Promise<PostModel | undefined> {
+      return this.postsService.getOne(id);
+    }
+
+    @ApiOkResponse({
       description: 'List of comments on this post',
       type: [PostModel],
     })
