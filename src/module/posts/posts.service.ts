@@ -42,7 +42,12 @@ export class PostsService {
     post.title = title;
     post.content = content;
     post.user = user;
+<<<<<<< HEAD
     date && (post.created_at = date);
+=======
+    post.date = date;
+    post.views = 0;
+>>>>>>> Update of get one post by id request
     return getRepository(PostModel).save(post);
   }
 
@@ -115,12 +120,12 @@ export class PostsService {
   async getOne(
     id: number
   ): Promise<PostModel | undefined> {
-    return getRepository(PostModel)
-    .createQueryBuilder('post_model')
-    .leftJoinAndSelect('post_model.user', 'user')
-    .leftJoinAndSelect('post_model.comments', 'comments')
-    .where('post_model.id = :id', {id})
-    .getOne();
+    const post = {...await this.getById(id)};
+    if (!post) {
+      throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST);
+    }
+    post.views++;
+    return getRepository(PostModel).save(post);    
   }
 
   @Transactional()

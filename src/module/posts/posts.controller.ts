@@ -72,6 +72,7 @@ import {
       return this.postsService.getAll();
     }
 
+    //get one post (click on post)
     @ApiOkResponse({
       description: 'Posts is loaded',
       type: [PostModel],

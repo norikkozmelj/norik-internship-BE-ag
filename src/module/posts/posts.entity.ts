@@ -69,7 +69,6 @@ export class Post {
 =======
     @ApiProperty({type: () => Comment})
     @OneToMany(() => Comment, comment => comment.post)
-    //@JoinColumn({ name: 'comment_id' })
     @Type(() => Comment)
     comments: Comment[];
 >>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
@@ -78,9 +77,22 @@ export class Post {
   @Column()
   title: string;
 
+<<<<<<< HEAD
   @ApiProperty()
   @Column()
   content: string;
+=======
+    @ApiProperty()
+    @Column({
+      type: 'integer',
+      default: 0
+    })
+    views: number;
+
+    @Exclude()
+    @CreateDateColumn()
+    created_at: Date;
+>>>>>>> Update of get one post by id request
 
 <<<<<<< HEAD
   @ApiProperty()
