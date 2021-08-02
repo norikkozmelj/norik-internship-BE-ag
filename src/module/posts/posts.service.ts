@@ -56,7 +56,7 @@ export class PostsService {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
     const user_id = user.id;
-    const post = await this.getOneById(id, user_id);
+    const post = {...await this.getOneById(id, user_id)};
     const { title, content, date } = updatePostDto;
     post.title = title || post.title;
     post.content = content || post.content;
@@ -75,6 +75,17 @@ export class PostsService {
     .getMany();
   }
 
+  @Transactional()
+  async getComments(
+    id: number,
+  ): Promise<Comment[]> {
+    return getRepository(Comment)
+    .createQueryBuilder('comment')
+    .leftJoinAndSelect('comment.user', 'user')
+    //.leftJoinAndSelect("comment.post", "post")
+    .where('comment.postId = :id', {id})
+    .getMany();
+  }
   
   @Transactional()
   async delete(id: number, requestUserPayload: RequestUserPayload): Promise<void> {

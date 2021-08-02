@@ -13,6 +13,11 @@ export const enum ExceptionCodeName {
   FOOD_LIFESTYLE_NOT_FOUND = 'FOOD_LIFESTYLE_NOT_FOUND',
   INVALID_POST_ID = 'INVALID_POST_ID',
   POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST = 'POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST',
+<<<<<<< HEAD
   POST_DOES_NOT_EXIST = 'POST_DOES_NOT_EXIST',
   COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT',
+=======
+  COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT = 'COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT',
+  POST_DOES_NOT_EXIST = 'POST_DOES_NOT_EXIST',
+>>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 }
