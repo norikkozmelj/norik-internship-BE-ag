@@ -76,13 +76,24 @@ export class PostsService {
   }
 
   @Transactional()
+  async getOne(
+    id: number
+  ): Promise<PostModel | undefined> {
+    return getRepository(PostModel)
+    .createQueryBuilder('post_model')
+    .leftJoinAndSelect('post_model.user', 'user')
+    .leftJoinAndSelect('post_model.comments', 'comments')
+    .where('post_model.id = :id', {id})
+    .getOne();
+  }
+
+  @Transactional()
   async getComments(
     id: number,
   ): Promise<Comment[]> {
     return getRepository(Comment)
     .createQueryBuilder('comment')
     .leftJoinAndSelect('comment.user', 'user')
-    //.leftJoinAndSelect("comment.post", "post")
     .where('comment.postId = :id', {id})
     .getMany();
   }
