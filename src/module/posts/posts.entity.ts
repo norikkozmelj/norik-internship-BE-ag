@@ -13,7 +13,7 @@ import {
   import { User } from '../user/user.entity';
   
   @Entity()
-  export class PostModel {
+  export class Post {
     @ApiProperty()
     @PrimaryGeneratedColumn()
     id: number;
@@ -32,12 +32,6 @@ import {
     @Type(() => User)
     user: User;
 
-
-    @ApiProperty()
-    @Column()
-    date: Date;
-
-    @Exclude()
     @CreateDateColumn()
     created_at: Date;
 

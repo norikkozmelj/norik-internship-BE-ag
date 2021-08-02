@@ -7,7 +7,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { PostModel } from './posts.entity';
+import { Post as PostModel } from './posts.entity';
 
 
 @Injectable()
@@ -36,7 +36,7 @@ export class PostsService {
     post.title = title;
     post.content = content;
     post.user = user;
-    post.date = date;
+    date && (post.created_at = date);
     return getRepository(PostModel).save(post);
   }
   
@@ -58,12 +58,11 @@ export class PostsService {
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
     const { title, content, date } = updatePostDto;
-    const newPost = {...post};
-    newPost.title = title || newPost.title;
-    newPost.content = content || newPost.content;
-    newPost.date = date || newPost.date;
+    post.title = title || post.title;
+    post.content = content || post.content;
+    post.created_at = date || post.created_at;
 
-    return await getRepository(PostModel).save(newPost);
+    return await getRepository(PostModel).save(post);
   }
   
   
@@ -87,12 +86,7 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    getRepository(PostModel)
-      .createQueryBuilder()
-      .delete()
-      .where('id = :id', { id })
-      .andWhere('user_id = :user_id', {user_id})
-      .execute();
+    getRepository(PostModel).remove(post);
   }
 
 

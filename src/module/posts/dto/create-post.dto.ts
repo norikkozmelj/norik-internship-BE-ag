@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 
 export class CreatePostDto {
@@ -14,8 +14,8 @@ export class CreatePostDto {
   content: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
-  date: Date;
+  date?: Date;
 
 }

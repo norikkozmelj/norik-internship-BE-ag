@@ -19,7 +19,7 @@ import {
   import { GetUser } from 'src/decorator/user.decorator';
   import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
   import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-  import { PostModel } from './posts.entity';
+  import { Post as PostModel } from './posts.entity';
   import { PostsService } from './posts.service';
   import { CreatePostDto } from './dto/create-post.dto';
   import { UpdatePostDto } from './dto/update-post.dto';
