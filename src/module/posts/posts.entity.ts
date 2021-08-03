@@ -4,13 +4,14 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn,
+    OneToMany,
     ManyToOne,
     JoinColumn,
   } from 'typeorm';
   import { Exclude, Type, Transform } from 'class-transformer';
   import { ApiProperty } from '@nestjs/swagger';
   import { User } from '../user/user.entity';
+  import { Comment } from '../comments/comments.entity';
   
   @Entity()
   export class Post {
@@ -33,11 +34,17 @@ import {
     @Type(() => User)
     user: User;
 
+    @ApiProperty({type: () => Comment})
+    @OneToMany(() => Comment, comment => comment.post)
+    @Type(() => Comment)
+    @Transform((comments: Comment[] ) => comments.map(comment => comment.id))
+    comments: Comment[];
+
     @CreateDateColumn()
     created_at: Date;
 
     @Exclude()
-    @CreateDateColumn()
+    @UpdateDateColumn()
     updated_at: Date;
 
   }
