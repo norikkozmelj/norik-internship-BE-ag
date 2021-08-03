@@ -88,8 +88,8 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    getRepository(Comment).remove(post.comments)
-    getRepository(PostModel).remove(post);
+    await getRepository(Comment).remove(post.comments)
+    await getRepository(PostModel).remove(post);
   }
 
 
