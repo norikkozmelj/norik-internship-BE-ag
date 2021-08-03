@@ -39,12 +39,7 @@ export class CommentsService {
     comment.content = content;
     comment.user = user;
     date && (comment.created_at = date);
-    const res = await getRepository(Comment).save(comment);
-    const post = await this.postsService.getById(id);
-    post.comments.push(comment);
-    await getRepository(PostModel).save(post);
-    
-    return res;
+    return await getRepository(Comment).save(comment);
   }
   
   @Transactional()
