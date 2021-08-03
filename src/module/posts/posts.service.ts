@@ -68,8 +68,10 @@ export class PostsService {
   
   @Transactional()
   async getAll(): Promise<PostModel[]> {
-    return getRepository(PostModel).createQueryBuilder('post_model')
-    .leftJoinAndSelect("post_model.user", "user")
+    return getRepository(PostModel)
+    .createQueryBuilder('post')
+    .leftJoinAndSelect("post.user", "user")
+    .leftJoinAndSelect("post.comments", "comments")
     .getMany();
   }
 
@@ -93,12 +95,26 @@ export class PostsService {
   @Transactional()
   async getOneById(id: number, user_id: number): Promise<PostModel> {
     const res = await getRepository(PostModel)
-      .createQueryBuilder('post_model')
+      .createQueryBuilder('post')
       .where('id = :id', { id })
       .andWhere('user_id = :user_id', {user_id})
       .getOne();
     if (!res) {
       throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST);
+    }
+    return res;
+  }
+
+  @Transactional()
+  async getById(id: number): Promise<PostModel> {
+    const res = await getRepository(PostModel)
+      .createQueryBuilder('post')
+      .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.comments", "comments")
+      .where('post.id = :id', { id })
+      .getOne();
+    if (!res) {
+      throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST);
     }
     return res;
   }

@@ -10,6 +10,7 @@ import { AllExceptionsFilter } from './filter/all-exceptions.filter';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigService } from './module/config/config.service';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { CommentsModule } from './module/comments/comments.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     UserModule,
     EncryptionModule,
     LoggingModule,
-    PostsModule
+    PostsModule,
+    CommentsModule
   ],
   providers: [
     {
