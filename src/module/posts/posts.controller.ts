@@ -72,6 +72,19 @@ import {
       return this.postsService.getAll();
     }
 
+    @ApiOkResponse({
+      description: 'List of all posts',
+      type: [PostModel],
+    })
+    @ApiUnauthorizedResponse({
+      description: 'User is not logged in',
+    })
+    @UseGuards(JwtAuthGuard)
+    @Get('mostViewedPosts')
+    async getMostViewedPosts(): Promise<PostModel[]> {
+      return this.postsService.getMostViewedPosts();
+    }
+
     //get one post (click on post)
     @ApiOkResponse({
       description: 'Posts is loaded',

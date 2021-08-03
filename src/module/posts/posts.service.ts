@@ -117,6 +117,16 @@ export class PostsService {
 <<<<<<< HEAD
 =======
   @Transactional()
+  async getMostViewedPosts(): Promise<PostModel[]> {
+    return getRepository(PostModel).createQueryBuilder('post_model')
+    .leftJoinAndSelect("post_model.user", "user")
+    .leftJoinAndSelect("post_model.comments", "comments")
+    .orderBy("post_model.views", "DESC")
+    .limit(5)
+    .getMany();
+  }
+
+  @Transactional()
   async getOne(
     id: number
   ): Promise<PostModel | undefined> {
