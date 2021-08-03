@@ -94,7 +94,7 @@ export class PostsService {
     return getRepository(Comment)
     .createQueryBuilder('comment')
     .leftJoinAndSelect('comment.user', 'user')
-    .where('comment.postId = :id', {id})
+    .where('comment.post_id = :id', {id})
     .getMany();
   }
   
