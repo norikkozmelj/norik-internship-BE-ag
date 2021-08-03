@@ -88,9 +88,6 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    //post.comments.map(
-    //  comment => getRepository(Comment).remove(comment)
-    //);
     getRepository(Comment).remove(post.comments)
     getRepository(PostModel).remove(post);
   }
