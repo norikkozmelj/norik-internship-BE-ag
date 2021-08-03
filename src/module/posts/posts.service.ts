@@ -56,7 +56,7 @@ export class PostsService {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
     const user_id = user.id;
-    const post = {...await this.getOneById(id, user_id)};
+    const post = await this.getOneById(id, user_id);
     const { title, content, date } = updatePostDto;
     post.title = title || post.title;
     post.content = content || post.content;
@@ -80,10 +80,10 @@ export class PostsService {
     id: number
   ): Promise<PostModel | undefined> {
     return getRepository(PostModel)
-    .createQueryBuilder('post_model')
-    .leftJoinAndSelect('post_model.user', 'user')
-    .leftJoinAndSelect('post_model.comments', 'comments')
-    .where('post_model.id = :id', {id})
+    .createQueryBuilder('post')
+    .leftJoinAndSelect('post.user', 'user')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .where('post.id = :id', {id})
     .getOne();
   }
 

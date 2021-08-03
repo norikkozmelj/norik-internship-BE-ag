@@ -105,7 +105,8 @@ export class UserService {
     const user_id = user.id;
     return await getRepository(PostModel).
     createQueryBuilder('post').
-    where('user_id = :user_id', {user_id}).
+    leftJoinAndSelect('post.comments','comments').
+    where('post.user_id = :user_id', {user_id}).
     getMany();
   }
 
@@ -124,7 +125,8 @@ export class UserService {
     const user_id = user.id;
     return await getRepository(Comment).
     createQueryBuilder('comment').
-    where('user_id = :user_id', {user_id}).
+    leftJoinAndSelect('comment.post', 'post').
+    where('comment.user_id = :user_id', {user_id}).
     getMany();
   }
 }

@@ -31,17 +31,10 @@ export class Comment {
 
   @ApiProperty({type: () => Post})
   @ManyToOne(() => Post, post => post.comments)
-<<<<<<< HEAD
   @Transform((post) => post.id)
   @JoinColumn({ name: 'post_id' })
   @Type(() => Post)
   post: Post;
-=======
-  //@JoinColumn({ name: 'post_id' })
-  @Type(() => Post)
-  post: Post;
-
->>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
 
   @CreateDateColumn()
   created_at: Date;
