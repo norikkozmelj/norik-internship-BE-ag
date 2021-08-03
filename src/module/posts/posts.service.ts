@@ -8,12 +8,12 @@ import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostModel } from './posts.entity';
-
+import { Comment } from '../comments/comments.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
-    private userService: UserService
+    private userService: UserService,
   ){}
 
   @Transactional()
@@ -88,7 +88,8 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    getRepository(PostModel).remove(post);
+    await getRepository(Comment).remove(post.comments)
+    await getRepository(PostModel).remove(post);
   }
 
 
@@ -96,8 +97,9 @@ export class PostsService {
   async getOneById(id: number, user_id: number): Promise<PostModel> {
     const res = await getRepository(PostModel)
       .createQueryBuilder('post')
-      .where('id = :id', { id })
-      .andWhere('user_id = :user_id', {user_id})
+      .leftJoinAndSelect("post.comments", "comments")
+      .where('post.id = :id', { id })
+      .andWhere('post.user_id = :user_id', {user_id})
       .getOne();
     if (!res) {
       throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST);
