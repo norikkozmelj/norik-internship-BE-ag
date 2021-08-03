@@ -8,12 +8,13 @@ import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { Comment } from './comments.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { Post as PostModel} from '../posts/posts.entity';
 import { PostsService } from '../posts/posts.service';
+import { Inject, forwardRef } from '@nestjs/common'; 
 
 @Injectable()
 export class CommentsService {
   constructor(
+    @Inject(forwardRef(() => PostsService))
     private postsService: PostsService,
     private userService: UserService,
   ){}
@@ -107,5 +108,4 @@ export class CommentsService {
     }
     return res;
   }
-
 }
