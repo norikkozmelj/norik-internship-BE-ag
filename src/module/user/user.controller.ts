@@ -16,7 +16,11 @@ import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../../decorator/roles.decorator';
-import { ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { ResponseInterceptor } from '../../interceptor/response.interceptor';
 import { GetAllUsersDocumentation } from './decorator/get-all-users-documentation.decorator';
 import { GetUserDocumentation } from './decorator/get-user-documentation.decorator';
@@ -43,30 +47,30 @@ export class UserController {
     type: [PostModel],
   })
   @ApiUnauthorizedResponse({
-    description: 'User not logged in'
+    description: 'User not logged in',
   })
   @UseGuards(JwtAuthGuard)
   @Get('posts')
   async getMyPosts(
-    @GetUser() requestUserPayload: RequestUserPayload, 
-  ): Promise<PostModel[]>{
+    @GetUser() requestUserPayload: RequestUserPayload,
+  ): Promise<PostModel[]> {
     return this.userService.getMyPosts(requestUserPayload);
-  };
+  }
 
   @ApiOkResponse({
     description: 'List of your comments',
     type: [Comment],
   })
   @ApiUnauthorizedResponse({
-    description: 'User not logged in'
+    description: 'User not logged in',
   })
   @UseGuards(JwtAuthGuard)
   @Get('comments')
   async getMyComments(
-    @GetUser() requestUserPayload: RequestUserPayload, 
-  ): Promise<Comment[]>{
+    @GetUser() requestUserPayload: RequestUserPayload,
+  ): Promise<Comment[]> {
     return this.userService.getMyComments(requestUserPayload);
-  };
+  }
 
   @PostUserDocumentation()
   @Roles(UserRoleKey.ADMIN)

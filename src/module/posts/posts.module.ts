@@ -4,7 +4,6 @@ import { PostsService } from './posts.service';
 import { UserModule } from '../user/user.module';
 import { CommentsModule } from '../comments/comments.module';
 
-
 @Module({
   imports: [forwardRef(() => UserModule), forwardRef(() => CommentsModule)],
   controllers: [PostsController],

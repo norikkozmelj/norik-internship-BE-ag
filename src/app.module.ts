@@ -50,7 +50,7 @@ import { CommentsModule } from './module/comments/comments.module';
     EncryptionModule,
     LoggingModule,
     PostsModule,
-    CommentsModule
+    CommentsModule,
   ],
   providers: [
     {

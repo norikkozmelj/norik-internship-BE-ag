@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsOptional, IsString } from 'class-validator';
 
-export class UpdateCommentDto{
+export class UpdateCommentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -11,4 +11,4 @@ export class UpdateCommentDto{
   @IsOptional()
   @IsDate()
   date?: Date;
-} 
+}

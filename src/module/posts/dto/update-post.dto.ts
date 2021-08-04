@@ -16,5 +16,4 @@ export class UpdatePostDto {
   @IsOptional()
   @IsDate()
   date?: Date;
-
 }

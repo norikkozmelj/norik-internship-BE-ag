@@ -1,12 +1,12 @@
-import { 
+import {
   Controller,
-  Body, 
+  Body,
   Post,
-  Get, 
-  Put, 
-  Param, 
+  Get,
+  Put,
+  Param,
   Delete,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -23,7 +23,7 @@ import { Comment } from './comments.entity';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-  
+
 @ApiTags('comments')
 @ApiBearerAuth()
 @Controller('comments')
@@ -47,9 +47,12 @@ export class CommentsController {
     @Body() createCommentDto: CreateCommentDto,
     @GetUser() requestUserPayload: RequestUserPayload,
   ): Promise<Comment> {
-    return this.commentsService.create(id ,createCommentDto, requestUserPayload);
+    return this.commentsService.create(
+      id,
+      createCommentDto,
+      requestUserPayload,
+    );
   }
-  
 
   @ApiOkResponse({
     description: 'List of all comments.',
@@ -60,9 +63,7 @@ export class CommentsController {
   })
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAll(
-    @Body() createCommentDto: CreateCommentDto,
-  ): Promise<Comment[]> {
+  async getAll(@Body() createCommentDto: CreateCommentDto): Promise<Comment[]> {
     return this.commentsService.getAll();
   }
 
@@ -91,11 +92,14 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
-    @Param('id') id: number, 
+    @Param('id') id: number,
     @GetUser() requestUserPayload: RequestUserPayload,
-    @Body() updateCommentDto:UpdateCommentDto,
-    ): Promise<Comment> {
-    return this.commentsService.update(id, requestUserPayload, updateCommentDto,);
+    @Body() updateCommentDto: UpdateCommentDto,
+  ): Promise<Comment> {
+    return this.commentsService.update(
+      id,
+      requestUserPayload,
+      updateCommentDto,
+    );
   }
-
 }

@@ -24,14 +24,17 @@ export class Comment {
 
   @ApiProperty()
   @ManyToOne(() => User)
-  @Transform((user) => user.id)
+  @Transform(user => user.id)
   @JoinColumn({ name: 'user_id' })
   @Type(() => User)
   user: User;
 
-  @ApiProperty({type: () => Post})
-  @ManyToOne(() => Post, post => post.comments)
-  @Transform((post) => post.id)
+  @ApiProperty({ type: () => Post })
+  @ManyToOne(
+    () => Post,
+    post => post.comments,
+  )
+  @Transform(post => post.id)
   @JoinColumn({ name: 'post_id' })
   @Type(() => Post)
   post: Post;
@@ -42,5 +45,4 @@ export class Comment {
   @Exclude()
   @UpdateDateColumn()
   updated_at: Date;
-
 }
