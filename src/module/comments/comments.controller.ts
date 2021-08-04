@@ -63,7 +63,7 @@ export class CommentsController {
   })
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAll(@Body() createCommentDto: CreateCommentDto): Promise<Comment[]> {
+  async getAll(): Promise<Comment[]> {
     return this.commentsService.getAll();
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Post } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExceptionCodeName } from 'src/enum/exception-codes.enum';
 import { getRepository } from 'typeorm';
 import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
