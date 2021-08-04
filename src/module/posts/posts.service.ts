@@ -146,7 +146,7 @@ export class PostsService {
       .leftJoinAndSelect('post.user', 'user')
       .leftJoinAndSelect('post.comments', 'comments')
       .orderBy('post.views', 'DESC')
-      .limit(5)
+      .take(5)
       .getMany();
   }
 }
