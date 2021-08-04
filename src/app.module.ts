@@ -50,11 +50,7 @@ import { CommentsModule } from './module/comments/comments.module';
     EncryptionModule,
     LoggingModule,
     PostsModule,
-<<<<<<< HEAD
     CommentsModule,
-=======
-    CommentsModule
->>>>>>> Added Comments module, controller, service and dtos. Implemented get (getAll), post (create), delete and update requests. Only logged in users can make requests and only author of the comment can update or delete it.
   ],
   providers: [
     {

@@ -16,15 +16,11 @@ import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../../decorator/roles.decorator';
-<<<<<<< HEAD
 import {
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-=======
-import { ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 import { ResponseInterceptor } from '../../interceptor/response.interceptor';
 import { GetAllUsersDocumentation } from './decorator/get-all-users-documentation.decorator';
 import { GetUserDocumentation } from './decorator/get-user-documentation.decorator';
@@ -51,52 +47,30 @@ export class UserController {
     type: [PostModel],
   })
   @ApiUnauthorizedResponse({
-<<<<<<< HEAD
     description: 'User not logged in',
-=======
-    description: 'User not logged in'
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   })
   @UseGuards(JwtAuthGuard)
   @Get('posts')
   async getMyPosts(
-<<<<<<< HEAD
     @GetUser() requestUserPayload: RequestUserPayload,
   ): Promise<PostModel[]> {
     return this.userService.getMyPosts(requestUserPayload);
   }
-=======
-    @GetUser() requestUserPayload: RequestUserPayload, 
-  ): Promise<PostModel[]>{
-    return this.userService.getMyPosts(requestUserPayload);
-  };
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 
   @ApiOkResponse({
     description: 'List of your comments',
     type: [Comment],
   })
   @ApiUnauthorizedResponse({
-<<<<<<< HEAD
     description: 'User not logged in',
-=======
-    description: 'User not logged in'
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   })
   @UseGuards(JwtAuthGuard)
   @Get('comments')
   async getMyComments(
-<<<<<<< HEAD
     @GetUser() requestUserPayload: RequestUserPayload,
   ): Promise<Comment[]> {
     return this.userService.getMyComments(requestUserPayload);
   }
-=======
-    @GetUser() requestUserPayload: RequestUserPayload, 
-  ): Promise<Comment[]>{
-    return this.userService.getMyComments(requestUserPayload);
-  };
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 
   @PostUserDocumentation()
   @Roles(UserRoleKey.ADMIN)

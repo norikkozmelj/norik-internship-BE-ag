@@ -92,11 +92,7 @@ export class UserService {
 
   @Transactional()
   async getMyPosts(
-<<<<<<< HEAD
     requestUserPayload: RequestUserPayload,
-=======
-    requestUserPayload: RequestUserPayload
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   ): Promise<PostModel[]> {
     const user = await this.getOne({
       where: {
@@ -107,27 +103,16 @@ export class UserService {
       throw new NotFoundException(ExceptionCodeName.USER_NOT_FOUND);
     }
     const user_id = user.id;
-<<<<<<< HEAD
     return await getRepository(PostModel)
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.comments', 'comments')
       .where('post.user_id = :user_id', { user_id })
       .getMany();
-=======
-    return await getRepository(PostModel).
-    createQueryBuilder('post').
-    where('user_id = :user_id', {user_id}).
-    getMany();
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   }
 
   @Transactional()
   async getMyComments(
-<<<<<<< HEAD
     requestUserPayload: RequestUserPayload,
-=======
-    requestUserPayload: RequestUserPayload
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   ): Promise<Comment[]> {
     const user = await this.getOne({
       where: {
@@ -138,17 +123,10 @@ export class UserService {
       throw new NotFoundException(ExceptionCodeName.USER_NOT_FOUND);
     }
     const user_id = user.id;
-<<<<<<< HEAD
     return await getRepository(Comment)
       .createQueryBuilder('comment')
       .leftJoinAndSelect('comment.post', 'post')
       .where('comment.user_id = :user_id', { user_id })
       .getMany();
-=======
-    return await getRepository(Comment).
-    createQueryBuilder('comment').
-    where('user_id = :user_id', {user_id}).
-    getMany();
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
   }
 }

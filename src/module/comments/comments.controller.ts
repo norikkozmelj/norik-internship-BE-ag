@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   Controller,
   Body,
@@ -8,17 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-=======
-import { 
-  Controller,
-  Body, 
-  Post,
-  Get, 
-  Put, 
-  Param, 
-  Delete,
-  UseGuards
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -35,13 +23,8 @@ import { Comment } from './comments.entity';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-<<<<<<< HEAD
 
 @ApiTags('comments')
-=======
-  
-@ApiTags('posts')
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 @ApiBearerAuth()
 @Controller('comments')
 export class CommentsController {
@@ -58,8 +41,6 @@ export class CommentsController {
     description: 'Invalid body',
   })
   @UseGuards(JwtAuthGuard)
-<<<<<<< HEAD
-<<<<<<< HEAD
   @Post(':id')
   async create(
     @Param('id') id: number,
@@ -71,24 +52,7 @@ export class CommentsController {
       createCommentDto,
       requestUserPayload,
     );
-=======
-  @Post()
-=======
-  @Post(':id')
->>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
-  async create(
-    @Param('id') id: number,
-    @Body() createCommentDto: CreateCommentDto,
-    @GetUser() requestUserPayload: RequestUserPayload,
-  ): Promise<Comment> {
-<<<<<<< HEAD
-    return this.commentsService.create(createCommentDto, requestUserPayload);
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
-=======
-    return this.commentsService.create(id ,createCommentDto, requestUserPayload);
->>>>>>> Created post and comment relation, updated comment post request, so you can post comment to a post. Implemented endpoint where you can get all comments from specific post
   }
-  
 
   @ApiOkResponse({
     description: 'List of all comments.',
@@ -99,13 +63,7 @@ export class CommentsController {
   })
   @UseGuards(JwtAuthGuard)
   @Get()
-<<<<<<< HEAD
   async getAll(): Promise<Comment[]> {
-=======
-  async getAll(
-    @Body() createCommentDto: CreateCommentDto,
-  ): Promise<Comment[]> {
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
     return this.commentsService.getAll();
   }
 
@@ -134,7 +92,6 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
-<<<<<<< HEAD
     @Param('id') id: number,
     @GetUser() requestUserPayload: RequestUserPayload,
     @Body() updateCommentDto: UpdateCommentDto,
@@ -145,13 +102,4 @@ export class CommentsController {
       updateCommentDto,
     );
   }
-=======
-    @Param('id') id: number, 
-    @GetUser() requestUserPayload: RequestUserPayload,
-    @Body() updateCommentDto:UpdateCommentDto,
-    ): Promise<Comment> {
-    return this.commentsService.update(id, requestUserPayload, updateCommentDto,);
-  }
-
->>>>>>> Added get (getMyPosts, getMyCommets) requests in UserModule controller
 }
