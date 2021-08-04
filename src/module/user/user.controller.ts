@@ -16,7 +16,7 @@ import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RoleGuard } from '../auth/guard/role.guard';
 import { Roles } from '../../decorator/roles.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../../interceptor/response.interceptor';
 import { GetAllUsersDocumentation } from './decorator/get-all-users-documentation.decorator';
 import { GetUserDocumentation } from './decorator/get-user-documentation.decorator';
@@ -27,12 +27,46 @@ import { UserRoleKey } from './enum/user-role-key.enum';
 import { ExceptionCodeName } from '../../enum/exception-codes.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostUserDocumentation } from './decorator/post-user-documentation.decorator';
+import { Post as PostModel } from '../posts/posts.entity';
+import { Comment } from '../comments/comments.entity';
+import { GetUser } from 'src/decorator/user.decorator';
+import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
 
 @ApiTags('user')
 @Controller('user')
 @UseInterceptors(ResponseInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @ApiOkResponse({
+    description: 'List of your posts',
+    type: [PostModel],
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User not logged in'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('posts')
+  async getMyPosts(
+    @GetUser() requestUserPayload: RequestUserPayload, 
+  ): Promise<PostModel[]>{
+    return this.userService.getMyPosts(requestUserPayload);
+  };
+
+  @ApiOkResponse({
+    description: 'List of your comments',
+    type: [Comment],
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User not logged in'
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('comments')
+  async getMyComments(
+    @GetUser() requestUserPayload: RequestUserPayload, 
+  ): Promise<Comment[]>{
+    return this.userService.getMyComments(requestUserPayload);
+  };
 
   @PostUserDocumentation()
   @Roles(UserRoleKey.ADMIN)

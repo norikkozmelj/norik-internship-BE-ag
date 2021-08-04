@@ -6,7 +6,7 @@ import { CommentsModule } from '../comments/comments.module';
 
 
 @Module({
-  imports: [UserModule, forwardRef(() => CommentsModule)],
+  imports: [forwardRef(() => UserModule), forwardRef(() => CommentsModule)],
   controllers: [PostsController],
   providers: [PostsService],
   exports: [PostsService],

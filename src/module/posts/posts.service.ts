@@ -75,6 +75,28 @@ export class PostsService {
     .getMany();
   }
 
+  @Transactional()
+  async getOne(
+    id: number
+  ): Promise<PostModel | undefined> {
+    return getRepository(PostModel)
+    .createQueryBuilder('post')
+    .leftJoinAndSelect('post.user', 'user')
+    .leftJoinAndSelect('post.comments', 'comments')
+    .where('post.id = :id', {id})
+    .getOne();
+  }
+
+  @Transactional()
+  async getComments(
+    id: number,
+  ): Promise<Comment[]> {
+    return getRepository(Comment)
+    .createQueryBuilder('comment')
+    .leftJoinAndSelect('comment.user', 'user')
+    .where('comment.post_id = :id', {id})
+    .getMany();
+  }
   
   @Transactional()
   async delete(id: number, requestUserPayload: RequestUserPayload): Promise<void> {
