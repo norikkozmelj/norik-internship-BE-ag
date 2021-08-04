@@ -33,7 +33,6 @@ export class CommentsService {
     if (!user) {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
-
     const { content, date } = createCommentDto;
 
     const comment = new Comment();

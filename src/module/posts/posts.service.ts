@@ -73,12 +73,12 @@ export class PostsService {
 
   @Transactional()
   async getOne(id: number): Promise<PostModel | undefined> {
-    return getRepository(PostModel)
-      .createQueryBuilder('post')
-      .leftJoinAndSelect('post.user', 'user')
-      .leftJoinAndSelect('post.comments', 'comments')
-      .where('post.id = :id', { id })
-      .getOne();
+    const post = await this.getById(id);
+    if (!post) {
+      throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST);
+    }
+    post.views++;
+    return getRepository(PostModel).save(post);
   }
 
   @Transactional()
@@ -137,5 +137,16 @@ export class PostsService {
       throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST);
     }
     return res;
+  }
+
+  @Transactional()
+  async getMostViewedPosts(): Promise<PostModel[]> {
+    return getRepository(PostModel)
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.comments', 'comments')
+      .orderBy('post.views', 'DESC')
+      .take(5)
+      .getMany();
   }
 }

@@ -32,6 +32,19 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @ApiOkResponse({
+    description: 'List of 5 most viewed posts',
+    type: [PostModel],
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User is not logged in',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get('mostViewedPosts')
+  async getMostViewedPosts(): Promise<PostModel[]> {
+    return this.postsService.getMostViewedPosts();
+  }
+
+  @ApiOkResponse({
     description: 'List of all posts',
     type: [PostModel],
   })

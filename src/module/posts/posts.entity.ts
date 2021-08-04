@@ -28,6 +28,13 @@ export class Post {
   content: string;
 
   @ApiProperty()
+  @Column({
+    type: 'integer',
+    default: 0,
+  })
+  views: number;
+
+  @ApiProperty()
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   @Transform(user => user.id)
