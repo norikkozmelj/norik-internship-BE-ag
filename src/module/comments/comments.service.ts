@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Post } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExceptionCodeName } from 'src/enum/exception-codes.enum';
 import { getRepository } from 'typeorm';
 import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
@@ -9,7 +9,7 @@ import { Comment } from './comments.entity';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { PostsService } from '../posts/posts.service';
-import { Inject, forwardRef } from '@nestjs/common'; 
+import { Inject, forwardRef } from '@nestjs/common';
 
 @Injectable()
 export class CommentsService {
@@ -17,14 +17,14 @@ export class CommentsService {
     @Inject(forwardRef(() => PostsService))
     private postsService: PostsService,
     private userService: UserService,
-  ){}
+  ) {}
 
   @Transactional()
   async create(
     id: number,
     createCommentDto: CreateCommentDto,
     requestUserPayload: RequestUserPayload,
-  ): Promise<Comment>{
+  ): Promise<Comment> {
     const user = await this.userService.getOne({
       where: {
         id: requestUserPayload.id,
@@ -33,7 +33,7 @@ export class CommentsService {
     if (!user) {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
-    
+
     const { content, date } = createCommentDto;
 
     const comment = new Comment();
@@ -44,21 +44,21 @@ export class CommentsService {
     comment.post = post;
     return await getRepository(Comment).save(comment);
   }
-  
+
   @Transactional()
-  async getAll(): Promise<Comment[]>{
-    return getRepository(Comment).
-    createQueryBuilder('comment').
-    leftJoinAndSelect('comment.user', 'user').
-    leftJoinAndSelect('comment.post', 'post').
-    getMany();
+  async getAll(): Promise<Comment[]> {
+    return getRepository(Comment)
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.user', 'user')
+      .leftJoinAndSelect('comment.post', 'post')
+      .getMany();
   }
-  
+
   @Transactional()
   async delete(
     id: number,
     requestUserPayload: RequestUserPayload,
-  ): Promise<void>{
+  ): Promise<void> {
     const user = await this.userService.getOne({
       where: {
         id: requestUserPayload.id,
@@ -77,7 +77,7 @@ export class CommentsService {
     id: number,
     requestUserPayload: RequestUserPayload,
     updateCommentDto: UpdateCommentDto,
-  ): Promise<Comment>{
+  ): Promise<Comment> {
     const user = await this.userService.getOne({
       where: {
         id: requestUserPayload.id,
@@ -94,17 +94,16 @@ export class CommentsService {
   }
 
   @Transactional()
-  async getOneById(
-    id: number,
-    user_id: number
-  ): Promise<Comment>{
-    const res = await getRepository(Comment).
-    createQueryBuilder('comment').
-    where('id = :id', {id}).
-    andWhere('user_id = :user_id', {user_id}).
-    getOne();
+  async getOneById(id: number, user_id: number): Promise<Comment> {
+    const res = await getRepository(Comment)
+      .createQueryBuilder('comment')
+      .where('id = :id', { id })
+      .andWhere('user_id = :user_id', { user_id })
+      .getOne();
     if (!res) {
-      throw new NotFoundException(ExceptionCodeName.COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT);
+      throw new NotFoundException(
+        ExceptionCodeName.COMMENT_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_COMMENT,
+      );
     }
     return res;
   }

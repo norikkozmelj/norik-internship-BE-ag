@@ -6,7 +6,11 @@ import { PostsModule } from '../posts/posts.module';
 import { CommentsModule } from '../comments/comments.module';
 
 @Module({
-  imports: [EncryptionModule, forwardRef(() => PostsModule), forwardRef(() => CommentsModule)],
+  imports: [
+    EncryptionModule,
+    forwardRef(() => PostsModule),
+    forwardRef(() => CommentsModule),
+  ],
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService],

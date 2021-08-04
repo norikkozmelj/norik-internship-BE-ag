@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Post } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExceptionCodeName } from 'src/enum/exception-codes.enum';
 import { getRepository } from 'typeorm';
 import { RequestUserPayload } from '../auth/interface/request-user-payload.interface';
@@ -12,14 +12,12 @@ import { Comment } from '../comments/comments.entity';
 
 @Injectable()
 export class PostsService {
-  constructor(
-    private userService: UserService,
-  ){}
+  constructor(private userService: UserService) {}
 
   @Transactional()
   async create(
-      createPostDto: CreatePostDto,
-      requestUserPayload: RequestUserPayload,
+    createPostDto: CreatePostDto,
+    requestUserPayload: RequestUserPayload,
   ): Promise<PostModel> {
     const user = await this.userService.getOne({
       where: {
@@ -29,7 +27,7 @@ export class PostsService {
     if (!user) {
       throw new UnauthorizedException(ExceptionCodeName.INVALID_CREDENTIALS);
     }
-    
+
     const { title, content, date } = createPostDto;
 
     const post = new PostModel();
@@ -39,11 +37,10 @@ export class PostsService {
     date && (post.created_at = date);
     return getRepository(PostModel).save(post);
   }
-  
-  
+
   @Transactional()
   async update(
-    id: number, 
+    id: number,
     requestUserPayload: RequestUserPayload,
     updatePostDto: UpdatePostDto,
   ): Promise<PostModel> {
@@ -64,42 +61,40 @@ export class PostsService {
 
     return await getRepository(PostModel).save(post);
   }
-  
-  
+
   @Transactional()
   async getAll(): Promise<PostModel[]> {
     return getRepository(PostModel)
-    .createQueryBuilder('post')
-    .leftJoinAndSelect("post.user", "user")
-    .leftJoinAndSelect("post.comments", "comments")
-    .getMany();
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.comments', 'comments')
+      .getMany();
   }
 
   @Transactional()
-  async getOne(
-    id: number
-  ): Promise<PostModel | undefined> {
+  async getOne(id: number): Promise<PostModel | undefined> {
     return getRepository(PostModel)
-    .createQueryBuilder('post')
-    .leftJoinAndSelect('post.user', 'user')
-    .leftJoinAndSelect('post.comments', 'comments')
-    .where('post.id = :id', {id})
-    .getOne();
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.comments', 'comments')
+      .where('post.id = :id', { id })
+      .getOne();
   }
 
   @Transactional()
-  async getComments(
-    id: number,
-  ): Promise<Comment[]> {
+  async getComments(id: number): Promise<Comment[]> {
     return getRepository(Comment)
-    .createQueryBuilder('comment')
-    .leftJoinAndSelect('comment.user', 'user')
-    .where('comment.post_id = :id', {id})
-    .getMany();
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.user', 'user')
+      .where('comment.post_id = :id', { id })
+      .getMany();
   }
-  
+
   @Transactional()
-  async delete(id: number, requestUserPayload: RequestUserPayload): Promise<void> {
+  async delete(
+    id: number,
+    requestUserPayload: RequestUserPayload,
+  ): Promise<void> {
     const user = await this.userService.getOne({
       where: {
         id: requestUserPayload.id,
@@ -110,21 +105,22 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
-    await getRepository(Comment).remove(post.comments)
+    await getRepository(Comment).remove(post.comments);
     await getRepository(PostModel).remove(post);
   }
-
 
   @Transactional()
   async getOneById(id: number, user_id: number): Promise<PostModel> {
     const res = await getRepository(PostModel)
       .createQueryBuilder('post')
-      .leftJoinAndSelect("post.comments", "comments")
+      .leftJoinAndSelect('post.comments', 'comments')
       .where('post.id = :id', { id })
-      .andWhere('post.user_id = :user_id', {user_id})
+      .andWhere('post.user_id = :user_id', { user_id })
       .getOne();
     if (!res) {
-      throw new NotFoundException(ExceptionCodeName.POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST);
+      throw new NotFoundException(
+        ExceptionCodeName.POST_DOES_NOT_EXIST_OR_YOU_DO_NOT_OWN_THIS_POST,
+      );
     }
     return res;
   }
@@ -133,8 +129,8 @@ export class PostsService {
   async getById(id: number): Promise<PostModel> {
     const res = await getRepository(PostModel)
       .createQueryBuilder('post')
-      .leftJoinAndSelect("post.user", "user")
-      .leftJoinAndSelect("post.comments", "comments")
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.comments', 'comments')
       .where('post.id = :id', { id })
       .getOne();
     if (!res) {
@@ -142,5 +138,4 @@ export class PostsService {
     }
     return res;
   }
-  
 }
