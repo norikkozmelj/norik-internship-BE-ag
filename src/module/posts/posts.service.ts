@@ -24,7 +24,6 @@ export class PostsService {
     createPostDto: CreatePostDto,
     requestUserPayload: RequestUserPayload,
   ): Promise<PostModel> {
-    console.log('\n\n' + requestUserPayload.id + '\n\n');
     const user = await this.userService.getOne({
       where: {
         id: requestUserPayload.id,
