@@ -5,12 +5,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { Exclude, Type, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Post } from '../posts/posts.entity';
+import { CommentsVote } from './comments-vote.entity';
 
 @Entity()
 export class Comment {
@@ -38,6 +40,33 @@ export class Comment {
   @JoinColumn({ name: 'post_id' })
   @Type(() => Post)
   post: Post;
+
+  @ApiProperty()
+  @OneToMany(
+    () => CommentsVote,
+    commentsVote => commentsVote.comment,
+  )
+  @Type(() => CommentsVote)
+  @Transform((commentsVotes: CommentsVote[]) =>
+    commentsVotes.map(vote => vote.id),
+  )
+  commentsVotes: CommentsVote[];
+
+  /*
+  @ApiProperty()
+  @Column({
+    type: 'integer',
+    array: true,
+  })
+  likes: number[];
+
+  @ApiProperty()
+  @Column({
+    type: 'integer',
+    array: true,
+  })
+  dislikes: number[];
+  */
 
   @CreateDateColumn()
   created_at: Date;
