@@ -13,6 +13,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Post } from '../posts/posts.entity';
 import { CommentsVote } from './comments-vote.entity';
+import { CommentsVoteKey } from './enum/comments-vote-key.enum';
 
 @Entity()
 export class Comment {
@@ -52,7 +53,15 @@ export class Comment {
   )
   commentsVotes: CommentsVote[];
 
-  @ApiPropertyOptional({ example: '2021-08-15T18:00:00.000Z' })
+  @Expose({ name: 'score'})
+  @ApiProperty({description: 'Sum of likes and dislikes', example: -2})
+  getScore(){
+    var score = 0;
+    this.commentsVotes.map(vote => (vote.commentsVoteKey == CommentsVoteKey.LIKE) ? score++ : score--);
+    return score;
+  }
+
+  @ApiPropertyOptional({example: '2021-08-15T18:00:00.000Z'})
   @CreateDateColumn()
   created_at: Date;
 
