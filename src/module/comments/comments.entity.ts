@@ -8,7 +8,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Exclude, Type, Transform } from 'class-transformer';
+import { Exclude, Type, Transform, Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Post } from '../posts/posts.entity';
