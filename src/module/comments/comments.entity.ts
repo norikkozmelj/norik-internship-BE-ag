@@ -52,22 +52,6 @@ export class Comment {
   )
   commentsVotes: CommentsVote[];
 
-  /*
-  @ApiProperty()
-  @Column({
-    type: 'integer',
-    array: true,
-  })
-  likes: number[];
-
-  @ApiProperty()
-  @Column({
-    type: 'integer',
-    array: true,
-  })
-  dislikes: number[];
-  */
-
   @CreateDateColumn()
   created_at: Date;
 
