@@ -9,10 +9,15 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Post as PostModel } from './posts.entity';
 import { Comment } from '../comments/comments.entity';
+import { CommentsService } from '../comments/comments.service';
+import { CommentsVote } from '../comments/comments-vote.entity';
 
 @Injectable()
 export class PostsService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private commentsService: CommentsService,
+  ) {}
 
   @Transactional()
   async create(
@@ -29,7 +34,6 @@ export class PostsService {
     }
 
     const { title, content, date } = createPostDto;
-
     const post = new PostModel();
     post.title = title;
     post.content = content;
@@ -105,6 +109,13 @@ export class PostsService {
     }
     const user_id = user.id;
     const post = await this.getOneById(id, user_id);
+    const deleteCommentsList = post.comments.map(comment => comment.id);
+    await getRepository(CommentsVote)
+      .createQueryBuilder()
+      .delete()
+      .from(CommentsVote)
+      .where('comment_id IN (:...deleteCommentsList)', { deleteCommentsList })
+      .execute();
     await getRepository(Comment).remove(post.comments);
     await getRepository(PostModel).remove(post);
   }

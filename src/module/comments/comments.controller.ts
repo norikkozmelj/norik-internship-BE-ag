@@ -23,6 +23,8 @@ import { Comment } from './comments.entity';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CommentsVoteDto } from './dto/comments-vote.dto';
+import { CommentsVote } from './comments-vote.entity';
 
 @ApiTags('comments')
 @ApiBearerAuth()
@@ -80,6 +82,26 @@ export class CommentsController {
     @GetUser() requestUserPayload: RequestUserPayload,
   ): Promise<void> {
     return this.commentsService.delete(id, requestUserPayload);
+  }
+
+  @ApiCreatedResponse({
+    description: 'The comment has been successfully posted.',
+    type: Comment,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User is not logged in',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid body',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Put(':id/vote')
+  async like(
+    @Param('id') id: number,
+    @GetUser() requestUserPayload: RequestUserPayload,
+    @Body() commentsVoteDto: CommentsVoteDto,
+  ): Promise<CommentsVote | void> {
+    return this.commentsService.vote(id, requestUserPayload, commentsVoteDto);
   }
 
   @ApiOkResponse({
