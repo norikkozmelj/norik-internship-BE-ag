@@ -7,6 +7,8 @@ import { EncryptionModule } from '../src/module/encryption/encryption.module';
 import { LoggingModule } from '../src/module/logging/logging.module';
 import { ConfigService } from '../src/module/config/config.service';
 import { SeedService } from './seed.service';
+import { PostsModule } from 'src/module/posts/posts.module';
+import { CommentsModule } from 'src/module/comments/comments.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { SeedService } from './seed.service';
     UserModule,
     EncryptionModule,
     LoggingModule,
+    PostsModule,
+    CommentsModule,
   ],
   providers: [SeedService],
   exports: [SeedService],
