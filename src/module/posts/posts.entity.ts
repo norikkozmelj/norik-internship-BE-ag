@@ -15,33 +15,33 @@ import { Comment } from '../comments/comments.entity';
 
 @Entity()
 export class Post {
-  @ApiProperty()
+  @ApiProperty({example: 1})
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({example: "Dončić is the best player in the world RN!"})
   @Column()
   title: string;
 
-  @ApiProperty()
+  @ApiProperty({example: "Slovenia plays well, I think they can win a medal!"})
   @Column()
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({description: "How many times the post was viewed", example: "123"})
   @Column({
     type: 'integer',
     default: 0,
   })
   views: number;
 
-  @ApiProperty()
+  @ApiProperty({description: "Author of the post", type: () => User })
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   @Transform(user => user.id)
   @Type(() => User)
   user: User;
 
-  @ApiProperty({ type: () => Comment })
+  @ApiProperty({description: "Comments of the post", type: () => Comment })
   @OneToMany(
     () => Comment,
     comment => comment.post,
@@ -50,6 +50,7 @@ export class Post {
   @Transform((comments: Comment[]) => comments.map(comment => comment.id))
   comments: Comment[];
 
+  @ApiProperty({description: "Date and time when the post was created", example: "2021-08-15T14:00:00.000Z"})
   @CreateDateColumn()
   created_at: Date;
 

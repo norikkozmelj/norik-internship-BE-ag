@@ -90,9 +90,6 @@ export class PostsController {
   @ApiUnauthorizedResponse({
     description: 'User is not logged in',
   })
-  @ApiBadRequestResponse({
-    description: 'Invalid body',
-  })
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(
@@ -108,9 +105,6 @@ export class PostsController {
   })
   @ApiUnauthorizedResponse({
     description: 'User is not logged in',
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid body',
   })
   @UseGuards(JwtAuthGuard)
   @Put(':id')
