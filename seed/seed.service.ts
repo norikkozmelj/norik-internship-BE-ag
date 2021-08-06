@@ -182,7 +182,7 @@ export class SeedService {
         ]);
         /***** COMMENTS END *****/
       }
-
+      /***** COMMENTS VOTE START *****/
       if (
         this.seedInclude.normalUser &&
         normalUser1 &&

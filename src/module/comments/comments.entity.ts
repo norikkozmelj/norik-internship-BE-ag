@@ -8,11 +8,12 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Exclude, Type, Transform } from 'class-transformer';
+import { Exclude, Type, Transform, Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Post } from '../posts/posts.entity';
 import { CommentsVote } from './comments-vote.entity';
+import { CommentsVoteKey } from './enum/comments-vote-key.enum';
 
 @Entity()
 export class Comment {
@@ -51,6 +52,16 @@ export class Comment {
     commentsVotes.map(vote => vote.id),
   )
   commentsVotes: CommentsVote[];
+
+  @Expose({ name: 'score' })
+  @ApiProperty({ description: 'Sum of likes and dislikes', example: -2 })
+  getScore(): number {
+    let score = 0;
+    this.commentsVotes.map(vote =>
+      vote.commentsVoteKey == CommentsVoteKey.LIKE ? score++ : score--,
+    );
+    return score;
+  }
 
   @ApiPropertyOptional({ example: '2021-08-15T18:00:00.000Z' })
   @CreateDateColumn()
