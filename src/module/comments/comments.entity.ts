@@ -53,6 +53,7 @@ export class Comment {
   )
   commentsVotes: CommentsVote[];
 
+<<<<<<< HEAD
   @Expose({ name: 'score'})
   @ApiProperty({description: 'Sum of likes and dislikes', example: -2})
   getScore(){
@@ -62,6 +63,19 @@ export class Comment {
   }
 
   @ApiPropertyOptional({example: '2021-08-15T18:00:00.000Z'})
+=======
+  @Expose({ name: 'score' })
+  @ApiProperty({ description: 'Sum of likes and dislikes', example: -2 })
+  getScore(): number {
+    let score = 0;
+    this.commentsVotes.map(vote =>
+      vote.commentsVoteKey == CommentsVoteKey.LIKE ? score++ : score--,
+    );
+    return score;
+  }
+
+  @ApiPropertyOptional({ example: '2021-08-15T18:00:00.000Z' })
+>>>>>>> Formatting code and removing useless imports and variable declarations
   @CreateDateColumn()
   created_at: Date;
 
