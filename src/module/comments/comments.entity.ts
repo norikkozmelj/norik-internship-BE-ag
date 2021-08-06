@@ -20,11 +20,11 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({example: "You are right, Dončić is the beast"})
+  @ApiProperty({ example: 'You are right, Dončić is the beast' })
   @Column()
   content: string;
 
-  @ApiProperty({ type: () => User})
+  @ApiProperty({ type: () => User })
   @ManyToOne(() => User)
   @Transform(user => user.id)
   @JoinColumn({ name: 'user_id' })
@@ -52,7 +52,7 @@ export class Comment {
   )
   commentsVotes: CommentsVote[];
 
-  @ApiPropertyOptional({example: "2021-08-15T18:00:00.000Z"})
+  @ApiPropertyOptional({ example: '2021-08-15T18:00:00.000Z' })
   @CreateDateColumn()
   created_at: Date;
 
