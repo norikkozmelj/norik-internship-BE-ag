@@ -91,9 +91,6 @@ export class CommentsController {
   @ApiUnauthorizedResponse({
     description: 'User is not logged in',
   })
-  @ApiBadRequestResponse({
-    description: 'Invalid body',
-  })
   @UseGuards(JwtAuthGuard)
   @Put(':id/vote')
   async like(
