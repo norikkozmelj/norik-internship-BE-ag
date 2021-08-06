@@ -7,10 +7,9 @@ import { UserService } from '../src/module/user/user.service';
 import { UserRoleKey } from '../src/module/user/enum/user-role-key.enum';
 import { UpdateUserDto } from '../src/module/user/dto/update-user.dto';
 import { PostsService } from 'src/module/posts/posts.service';
-import { Post } from 'src/module/posts/posts.entity'; 
+import { Post } from 'src/module/posts/posts.entity';
 import { CommentsService } from 'src/module/comments/comments.service';
 import { Comment } from 'src/module/comments/comments.entity';
-import { CommentsVote } from 'src/module/comments/comments-vote.entity';
 import { CommentsVoteKey } from 'src/module/comments/enum/comments-vote-key.enum';
 
 @Injectable()
@@ -89,7 +88,7 @@ export class SeedService {
           role: UserRoleKey.ADMIN,
         }),
       ]);
-      
+
       const updateUser1 = new UpdateUserDto();
       updateUser1.first_name = 'Luka';
       updateUser1.last_name = 'Zlatečan';
@@ -114,63 +113,104 @@ export class SeedService {
     let post1: Post | undefined,
       post2: Post | undefined,
       post3: Post | undefined;
-    if (this.seedInclude.normalUser && normalUser1 && normalUser2 && normalUser3) {
+    if (
+      this.seedInclude.normalUser &&
+      normalUser1 &&
+      normalUser2 &&
+      normalUser3
+    ) {
       [post1, post2, post3] = await Promise.all([
-        this.postsService.create({
-          title: 'I like football!',
-          content: 'I really love to play football, it is my favourite sport!',
-        }, {id:normalUser1.id,user_role:normalUser1.role}),
-        this.postsService.create({
-          title: 'I like basketball!',
-          content: 'I really love to play basketball, it is my favourite sport!',
-        }, {id:normalUser2.id,user_role:normalUser2.role}),
-        this.postsService.create({
-          title: 'I like handball!',
-          content: 'I really love to play handball, it is my favourite sport!',
-        }, {id:normalUser3.id,user_role:normalUser3.role}),
+        this.postsService.create(
+          {
+            title: 'I like football!',
+            content:
+              'I really love to play football, it is my favourite sport!',
+          },
+          { id: normalUser1.id, user_role: normalUser1.role },
+        ),
+        this.postsService.create(
+          {
+            title: 'I like basketball!',
+            content:
+              'I really love to play basketball, it is my favourite sport!',
+          },
+          { id: normalUser2.id, user_role: normalUser2.role },
+        ),
+        this.postsService.create(
+          {
+            title: 'I like handball!',
+            content:
+              'I really love to play handball, it is my favourite sport!',
+          },
+          { id: normalUser3.id, user_role: normalUser3.role },
+        ),
       ]);
-    /***** POSTS END *****/
+      /***** POSTS END *****/
 
-    /***** COMMENTS START *****/
-    let comment1: Comment | undefined,
-      comment2: Comment | undefined,
-      comment3: Comment | undefined;
-    if (this.seedInclude.normalUser && normalUser1 && normalUser2 && normalUser3) {
-      [comment1, comment2, comment3] = await Promise.all([
-        this.commentsService.create(post1.id,{
-          content: 'Basketball is better!!',
-        }, {id:normalUser2.id,user_role:normalUser2.role}),
-        this.commentsService.create(post2.id,{
-          content: 'Handball is better!!',
-        }, {id:normalUser3.id,user_role:normalUser3.role}),
-        this.commentsService.create(post3.id,{
-          content: 'Football is better!!',
-        }, {id:normalUser1.id,user_role:normalUser1.role}),
-      ]);
-    /***** COMMENTS END *****/
-    }
-    /***** COMMENTS VOTE START *****/
-    let vote1: CommentsVote | undefined | void,
-      vote2: CommentsVote | undefined | void,
-      vote3: CommentsVote | undefined | void;
-    if (this.seedInclude.normalUser && normalUser1 && normalUser2 && normalUser3 && comment1 && comment2 && comment3) {
-      [vote1, vote2/*, vote3*/] = await Promise.all([
-        this.commentsService.vote(comment3.id,
-          {id:normalUser2.id,user_role:normalUser2.role},
-          {vote: CommentsVoteKey.LIKE}),
-        this.commentsService.vote(comment1.id,
-          {id:normalUser3.id,user_role:normalUser3.role},
-          {vote: CommentsVoteKey.DISLIKE}),
-        this.commentsService.vote(comment2.id,
-          {id:normalUser1.id,user_role:normalUser1.role},
-          {vote: CommentsVoteKey.LIKE}),
-      ]);
-    /***** COMMENTS VOTE END *****/
+      /***** COMMENTS START *****/
+      let comment1: Comment | undefined,
+        comment2: Comment | undefined,
+        comment3: Comment | undefined;
+      if (
+        this.seedInclude.normalUser &&
+        normalUser1 &&
+        normalUser2 &&
+        normalUser3
+      ) {
+        [comment1, comment2, comment3] = await Promise.all([
+          this.commentsService.create(
+            post1.id,
+            {
+              content: 'Basketball is better!!',
+            },
+            { id: normalUser2.id, user_role: normalUser2.role },
+          ),
+          this.commentsService.create(
+            post2.id,
+            {
+              content: 'Handball is better!!',
+            },
+            { id: normalUser3.id, user_role: normalUser3.role },
+          ),
+          this.commentsService.create(
+            post3.id,
+            {
+              content: 'Football is better!!',
+            },
+            { id: normalUser1.id, user_role: normalUser1.role },
+          ),
+        ]);
+        /***** COMMENTS END *****/
+      }
+
+      if (
+        this.seedInclude.normalUser &&
+        normalUser1 &&
+        normalUser2 &&
+        normalUser3 &&
+        comment1 &&
+        comment2 &&
+        comment3
+      ) {
+        await Promise.all([
+          this.commentsService.vote(
+            comment3.id,
+            { id: normalUser2.id, user_role: normalUser2.role },
+            { vote: CommentsVoteKey.LIKE },
+          ),
+          this.commentsService.vote(
+            comment1.id,
+            { id: normalUser3.id, user_role: normalUser3.role },
+            { vote: CommentsVoteKey.DISLIKE },
+          ),
+          this.commentsService.vote(
+            comment2.id,
+            { id: normalUser1.id, user_role: normalUser1.role },
+            { vote: CommentsVoteKey.LIKE },
+          ),
+        ]);
+        /***** COMMENTS VOTE END *****/
+      }
     }
   }
 }
-
-}
-
-
-
